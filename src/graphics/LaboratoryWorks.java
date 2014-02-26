@@ -1,5 +1,6 @@
 package graphics;
-import java.awt.Frame;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Random;
@@ -17,57 +18,66 @@ public class LaboratoryWorks {
 
     public static void main( String [] args ) {
         GLProfile glprofile = GLProfile.getDefault();
-        GLCapabilities glcapabilities = new GLCapabilities( glprofile );
+        GLCapabilities glcapabilities = new GLCapabilities(glprofile);
         final GLCanvas glcanvas = new GLCanvas( glcapabilities );
 
         glcanvas.addGLEventListener( new GLEventListener() {
             
-            @Override
-            public void reshape( GLAutoDrawable glautodrawable, int x, int y, int width, int height ) {
-            	LaboratoryWorks.setup( glautodrawable.getGL().getGL2(), width, height );
+            @Override //when window was resized
+            public void reshape(GLAutoDrawable glautodrawable, int x, int y, int width, int height) { 
+            	LaboratoryWorks.setup(glautodrawable.getGL().getGL2(), width, height );
             }
             
-            @Override
-            public void init( GLAutoDrawable glautodrawable ) {
-            }
+            @Override //work only once in the begining
+            public void init(GLAutoDrawable glautodrawable) {}
             
-            @Override
-            public void dispose( GLAutoDrawable glautodrawable ) {
-            }
+            @Override  //work only once at the end
+            public void dispose(GLAutoDrawable glautodrawable) {}
             
-            @Override
-            public void display( GLAutoDrawable glautodrawable ) {
+            @Override 
+            public void display(GLAutoDrawable glautodrawable) {
             	LaboratoryWorks.render( glautodrawable.getGL().getGL2(), glautodrawable.getWidth(), glautodrawable.getHeight() );
             }
         });
 
-        final Frame frame = new Frame("KP");
-        frame.add( glcanvas );
-        frame.addWindowListener( new WindowAdapter() {
-            public void windowClosing( WindowEvent windowevent ) {
-                frame.remove( glcanvas );
+        final KeyFrame frame = new KeyFrame("KP");
+        frame.add(glcanvas);
+        glcanvas.addKeyListener(new KeyListener() {
+			
+        	@Override
+        	public void keyPressed(KeyEvent e) {
+        		System.out.println("p" + e.getKeyChar() + " " + e.getKeyCode());
+        	}
+        	@Override
+        	public void keyReleased(KeyEvent e) {
+        		System.out.println("r" + e.getKeyChar() + " " + e.getKeyCode());
+        	}
+        	
+        	@Override
+        	public void keyTyped(KeyEvent e) {}
+		});
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowevent) {
+                frame.remove(glcanvas);
                 frame.dispose();
                 System.exit( 0 );
             }
         });
 
-        frame.setSize( 840, 680 );
-        frame.setVisible( true );
+        frame.setSize(840, 680);
+        frame.setVisible(true);
     }
     
     protected static void render(GL2 gl2, int width, int height ) {
-        gl2.glClear(GL.GL_COLOR_BUFFER_BIT);
-
-        // draw a triangle filling the window
-        gl2.glLoadIdentity();
+        gl2.glClear(GL.GL_COLOR_BUFFER_BIT); //TODO: 
+        gl2.glLoadIdentity();		//TODO: 
         drawK(gl2, new Random());
-        
         drawP(gl2, new Random());
     }
     
     protected static void drawP(GL2 gl2, Random random){
     	Random r = new Random();
-    	gl2.glBegin(GL.GL_LINE_LOOP);
+    	gl2.glBegin(GL.GL_LINE_LOOP); //TODO: 
     	newPoint(gl2, 270, 0, r);
     	newPoint(gl2, 270, 230, r);
     	newPoint(gl2, 290, 230, r);
@@ -180,15 +190,15 @@ public class LaboratoryWorks {
 
     
     protected static void setup( GL2 gl2, int width, int height ) {
-        gl2.glMatrixMode(GL2.GL_PROJECTION );
-        gl2.glLoadIdentity();
+        gl2.glMatrixMode(GL2.GL_PROJECTION ); //TODO: 
+        gl2.glLoadIdentity(); //TODO: 
 
-        GLU glu = new GLU();
-        glu.gluOrtho2D( 0.0f, width, 0.0f, height );
+        GLU glu = new GLU(); //TODO: 
+        glu.gluOrtho2D( 0.0f, width, 0.0f, height ); //TODO: 
 
-        gl2.glMatrixMode( GL2.GL_MODELVIEW );
-        gl2.glLoadIdentity();
+        gl2.glMatrixMode( GL2.GL_MODELVIEW );  //TODO: 
+        gl2.glLoadIdentity(); //TODO: 
 
-        gl2.glViewport( 0, 0, width, height );
+        gl2.glViewport( 0, 0, width, height ); //TODO: 
     }
 }
