@@ -56,9 +56,8 @@ public class LaboratoryWorks {
             
             @Override 
             public void display(GLAutoDrawable glautodrawable) {
-            	System.out.println("transform " + map.get(TransformationType.TRANSFORM));
-            	System.out.println("scale " + map.get(TransformationType.SCALE));
             	System.out.println("rotate_c " + map.get(TransformationType.ROTATE_C));
+            	System.out.println("rotate_z " + map.get(TransformationType.ROTATE_Z));
             	GL2 gl2 = glautodrawable.getGL().getGL2();
             	gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
             	gl2.glLoadIdentity(); 
@@ -71,8 +70,7 @@ public class LaboratoryWorks {
             	gl2.glTranslatef(220f, 90, 0f);
             	gl2.glScalef(map.get(TransformationType.SCALE), map.get(TransformationType.SCALE), 1);
             	gl2.glTranslatef(map.get(TransformationType.TRANSFORM), map.get(TransformationType.TRANSFORM), 1);
-            	
-            	//gl2.glRotatef(map.get(TransformationType.ROTATE_Z), 0f, 0f, 1f);
+            	gl2.glRotatef(map.get(TransformationType.ROTATE_Z), 0f, 0f, 1f);
                 drawK(gl2, new Random());
                 drawP(gl2, new Random());
             }
