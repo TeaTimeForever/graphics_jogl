@@ -26,6 +26,7 @@ public class LaboratoryWorks {
 		map.put(TransformationType.ROTATE_Z, 0f);
 		map.put(TransformationType.SCALE, 1f);
 		map.put(TransformationType.TRANSFORM, 0f);
+		map.put(TransformationType.CUT, 0f);
 	}
     public static void main( String [] args ) {
         GLProfile glprofile = GLProfile.getDefault();
@@ -42,7 +43,8 @@ public class LaboratoryWorks {
             public void init(GLAutoDrawable glautodrawable) {
             	GL2 gl2 = glautodrawable.getGL().getGL2();
                 gl2.glMatrixMode(GL2.GL_PROJECTION);  
-                gl2.glLoadIdentity();  
+                gl2.glLoadIdentity();
+              //  gl2.glClearColor(1, 0, 0, 1); // background color
 
                 GLU glu = new GLU(); 
                 glu.gluOrtho2D( 0.0f, 640, 0.0f, 680 );  
@@ -56,23 +58,38 @@ public class LaboratoryWorks {
             
             @Override 
             public void display(GLAutoDrawable glautodrawable) {
-            	System.out.println("rotate_c " + map.get(TransformationType.ROTATE_C));
-            	System.out.println("rotate_z " + map.get(TransformationType.ROTATE_Z));
             	GL2 gl2 = glautodrawable.getGL().getGL2();
             	gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-            	gl2.glLoadIdentity(); 
+            	gl2.glLoadIdentity();
             	
-            	if(map.get(TransformationType.ROTATE_C) != 0f) {
-            		GLU glu = new GLU(); 
-                	gl2.glRotatef(map.get(TransformationType.ROTATE_C), 0f, 0f, 1f);
+            	gl2.glRotatef(map.get(TransformationType.ROTATE_Z), 0f, 0f, 1f); 
+            	gl2.glTranslatef(220f, 90, 0f);
+            	gl2.glTranslatef(map.get(TransformationType.TRANSFORM), map.get(TransformationType.TRANSFORM), 1);
+            	gl2.glScalef(map.get(TransformationType.SCALE), map.get(TransformationType.SCALE), 1);
+            	gl2.glRotatef(map.get(TransformationType.ROTATE_C), 0f, 0f, 1f);
+            	gl2.glTranslatef(-220f, -90, 0f);
+            	
+            	if(map.get(TransformationType.CUT) == 1f) {
+            		double[] eqn0 = { 1.0, 0.0, 0.0, -100.0};
+            		gl2.glClipPlane(GL2.GL_CLIP_PLANE0, eqn0, 0);
+            		gl2.glEnable(GL2.GL_CLIP_PLANE0);
+            		double[] eqn1 = { 0.0, 1.0, 0.0, -50.0};
+            		gl2.glClipPlane(GL2.GL_CLIP_PLANE1, eqn1, 0);
+            		gl2.glEnable(GL2.GL_CLIP_PLANE1);
+            		double[] eqn2 = { -1.0, 0.0, 0.0, 300.0};
+            		gl2.glClipPlane(GL2.GL_CLIP_PLANE2, eqn2, 0);
+            		gl2.glEnable(GL2.GL_CLIP_PLANE2);
+            		double[] eqn3 = { 0.0, -1.0, 0.0, 200.0};
+            		gl2.glClipPlane(GL2.GL_CLIP_PLANE3, eqn3, 0);
+            		gl2.glEnable(GL2.GL_CLIP_PLANE3);
             	}
             	
-            	gl2.glTranslatef(220f, 90, 0f);
-            	gl2.glScalef(map.get(TransformationType.SCALE), map.get(TransformationType.SCALE), 1);
-            	gl2.glTranslatef(map.get(TransformationType.TRANSFORM), map.get(TransformationType.TRANSFORM), 1);
-            	gl2.glRotatef(map.get(TransformationType.ROTATE_Z), 0f, 0f, 1f);
                 drawK(gl2, new Random());
                 drawP(gl2, new Random());
+                gl2.glDisable(GL2.GL_CLIP_PLANE0);
+                gl2.glDisable(GL2.GL_CLIP_PLANE1);
+                gl2.glDisable(GL2.GL_CLIP_PLANE2);
+                gl2.glDisable(GL2.GL_CLIP_PLANE3);
             }
         });
 
@@ -100,8 +117,11 @@ public class LaboratoryWorks {
 					map.put(TransformationType.ROTATE_C, map.get(TransformationType.ROTATE_C)+1f); 
 					glcanvas.display();
 					break;
-				default:
+				case 16: 
+					map.put(TransformationType.CUT, (map.get(TransformationType.CUT) == 1f)? 0f : 1f);
+					glcanvas.display();
 					break;
+				default: 
 				}
         	}
         	@Override
