@@ -1,5 +1,6 @@
 package graphics;
 import java.awt.Frame;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -85,7 +86,7 @@ public class LaboratoryWorks {
             	}
             	
                 drawK(gl2, new Random());
-                drawP(gl2, new Random());
+                drawSplainedP(gl2, new Random());
                 gl2.glDisable(GL2.GL_CLIP_PLANE0);
                 gl2.glDisable(GL2.GL_CLIP_PLANE1);
                 gl2.glDisable(GL2.GL_CLIP_PLANE2);
@@ -142,6 +143,73 @@ public class LaboratoryWorks {
         frame.setSize(840, 680);
         frame.setVisible(true);
     }
+    
+    protected static void drawSplainedP(GL2 gl2, Random random){
+    	Random r = new Random();
+    	gl2.glBegin(GL.GL_LINE_LOOP); 
+    	newPoint(gl2, 270, 0, r);
+    	newPoint(gl2, 270, 230, r);
+    	newPoint(gl2, 290, 230, r);
+    	newPoint(gl2, 290, 0, r);
+    	gl2.glEnd();
+    	
+    	gl2.glBegin(GL.GL_LINE_LOOP);
+    	newPoint(gl2, 290, 230, r);
+    	newPoint(gl2, 290, 210, r);
+    	newPoint(gl2, 380, 210, r);
+    	newPoint(gl2, 380, 230, r);
+    	gl2.glEnd();
+    	
+    	Point points[] = new Point[]{
+    			new Point(360, 230), 
+    			new Point(380, 230),
+    			new Point(390, 200),
+    			new Point(380, 120),
+    			new Point(360, 120),
+    			new Point(330, 110),
+    			new Point(280, 130),
+    			new Point(280, 140),
+    			new Point(290, 150),
+    			new Point(300, 150),
+    			new Point(310, 155),
+    			new Point(320, 160),
+    			new Point(340, 165)};
+    	splain(points, gl2, r);
+    }
+    
+    private static void splain(Point p[], GL2 gl2, Random r) {
+    	gl2.glBegin(GL.GL_LINE_LOOP);
+    	int n = p.length;
+    	for (int i = 2; i < n+1; i++) {
+    		float xA = p[(i-1) % n].x,
+    			  xB = p[(i) % n].x,
+    			  xC = p[(i + 1) % n].x,
+    			  xD = p[(i + 2) % n].x,
+    			  yA = p[(i - 1) % n].y,
+    			  yB = p[(i) % n].y,
+    			  yC = p[(i + 1) % n].y,
+    			  yD = p[(i + 2) % n].y,
+    			  a3 = (-xA + 3 * (xB -xC) + xD) / 6, 
+    			  a2 = (xA - 2 * xB + xC) / 2,
+    			  a1 = (xC - xA) / 2,
+    			  a0 = (xA + 4 * xB + xC) / 6,
+    			  b3 = (-yA + 3 * (yB - yC) + yD ) / 6,
+    			  b2 = (yA - 2 * yB + yC) / 2,
+    			  b1 = (yC - yA) / 2,
+    			  b0 = (yA + 4 * yB + yC) / 6;
+    	
+    		for(int j = 0; j < n; j++) {
+    			float t = j / (float) n,
+    				  x = ((a3 * t + a2) * t + a1 ) * t + a0,
+    				  y = ((b3 * t + b2) * t + b1 ) * t + b0;
+    			gl2.glColor3f( r.nextFloat(), r.nextFloat(), r.nextFloat());
+    			gl2.glVertex2f(x, y);
+    		}
+    			  
+    	}
+    	gl2.glEnd();
+    					  
+    } 
     
     protected static void drawP(GL2 gl2, Random random){
     	Random r = new Random();
