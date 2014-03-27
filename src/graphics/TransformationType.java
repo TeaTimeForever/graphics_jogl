@@ -5,5 +5,8 @@ public enum TransformationType {
 	TRANSFORM,
 	ROTATE_C, //center
 	ROTATE_Z, //zero
-	CUT
+	CUT, 
+	SPLAIN, 
+	ROTATE_Y,
+	ROTATE_X
 }

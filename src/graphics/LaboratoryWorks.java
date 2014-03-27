@@ -5,7 +5,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -28,6 +30,7 @@ public class LaboratoryWorks {
 		map.put(TransformationType.SCALE, 1f);
 		map.put(TransformationType.TRANSFORM, 0f);
 		map.put(TransformationType.CUT, 0f);
+		map.put(TransformationType.SPLAIN, 1f);
 	}
     public static void main( String [] args ) {
         GLProfile glprofile = GLProfile.getDefault();
@@ -52,6 +55,7 @@ public class LaboratoryWorks {
 
                 gl2.glMatrixMode( GL2.GL_MODELVIEW );   
                 gl2.glLoadIdentity();
+                gl2.glEnable(GL2.GL_LINE_SMOOTH);
             }
             
             @Override  //work only once at the end
@@ -86,7 +90,12 @@ public class LaboratoryWorks {
             	}
             	
                 drawK(gl2, new Random());
-                drawSplainedP(gl2, new Random());
+                if(map.get(TransformationType.SPLAIN) == 1f) {
+                	drawSplainedP(gl2, new Random());
+                } else {
+                	drawP(gl2, new Random());
+                }
+                
                 gl2.glDisable(GL2.GL_CLIP_PLANE0);
                 gl2.glDisable(GL2.GL_CLIP_PLANE1);
                 gl2.glDisable(GL2.GL_CLIP_PLANE2);
@@ -100,6 +109,7 @@ public class LaboratoryWorks {
 			
         	@Override
         	public void keyPressed(KeyEvent e) {
+        		
         		switch (e.getKeyCode()) {
 				case 37:
 					map.put(TransformationType.SCALE, map.get(TransformationType.SCALE)+0.01f);
@@ -122,7 +132,11 @@ public class LaboratoryWorks {
 					map.put(TransformationType.CUT, (map.get(TransformationType.CUT) == 1f)? 0f : 1f);
 					glcanvas.display();
 					break;
-				default: 
+				case 61:
+					map.put(TransformationType.SPLAIN, (map.get(TransformationType.SPLAIN) == 1f)? 0f : 1f);
+					glcanvas.display();
+					break;
+				default: ; 
 				}
         	}
         	@Override
@@ -160,35 +174,26 @@ public class LaboratoryWorks {
     	newPoint(gl2, 380, 230, r);
     	gl2.glEnd();
     	
-    	Point points[] = new Point[]{
-    			new Point(360, 230), 
-    			new Point(380, 230),
-    			new Point(390, 200),
-    			new Point(380, 120),
-    			new Point(360, 120),
-    			new Point(330, 110),
-    			new Point(280, 130),
-    			new Point(280, 140),
-    			new Point(290, 150),
-    			new Point(300, 150),
-    			new Point(310, 155),
-    			new Point(320, 160),
-    			new Point(340, 165)};
+    	List<Point> points = new ArrayList<Point>();
+    	points.add(new Point(380, 220));
+    	points.add(new Point(370, 250));
+    	points.add(new Point(220, 100));
+    	points.add(new Point(380, 100));
     	splain(points, gl2, r);
     }
     
-    private static void splain(Point p[], GL2 gl2, Random r) {
+    private static void splain(List<Point> points, GL2 gl2, Random r) {
     	gl2.glBegin(GL.GL_LINE_LOOP);
-    	int n = p.length;
+    	int n = points.size();
     	for (int i = 2; i < n+1; i++) {
-    		float xA = p[(i-1) % n].x,
-    			  xB = p[(i) % n].x,
-    			  xC = p[(i + 1) % n].x,
-    			  xD = p[(i + 2) % n].x,
-    			  yA = p[(i - 1) % n].y,
-    			  yB = p[(i) % n].y,
-    			  yC = p[(i + 1) % n].y,
-    			  yD = p[(i + 2) % n].y,
+    		float xA = points.get((i-1) % n).x,
+    			  xB = points.get((i) % n).x,
+    			  xC = points.get((i + 1) % n).x,
+    			  xD = points.get((i + 2) % n).x,
+    			  yA = points.get((i - 1) % n).y,
+    			  yB = points.get((i) % n).y,
+    			  yC = points.get((i + 1) % n).y,
+    			  yD = points.get((i + 2) % n).y,
     			  a3 = (-xA + 3 * (xB -xC) + xD) / 6, 
     			  a2 = (xA - 2 * xB + xC) / 2,
     			  a1 = (xC - xA) / 2,
@@ -205,10 +210,8 @@ public class LaboratoryWorks {
     			gl2.glColor3f( r.nextFloat(), r.nextFloat(), r.nextFloat());
     			gl2.glVertex2f(x, y);
     		}
-    			  
     	}
     	gl2.glEnd();
-    					  
     } 
     
     protected static void drawP(GL2 gl2, Random random){
