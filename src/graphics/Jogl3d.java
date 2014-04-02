@@ -44,9 +44,13 @@ public class Jogl3d {
 
 			@Override
 			public void display(GLAutoDrawable drawable) {
+				
+				
 				GL2 gl2 = drawable.getGL().getGL2();
 				gl2.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
             	gl2.glLoadIdentity();
+            	GLU glu = new GLU(); 
+				glu.gluLookAt( 0, 0, 0, 7.0, -3.0, 5.0, 12.0, -12.0, -13.0 );
             	gl2.glScaled(0.01, 0.01, 0.01);
             	gl2.glRotatef(map.get(TransformationType.ROTATE_X), 1f, 0f, 0f);
             	gl2.glRotatef(map.get(TransformationType.ROTATE_Y), 1f, 1f, 0f);
@@ -73,13 +77,11 @@ public class Jogl3d {
 			      gl.glShadeModel(GL2.GL_SMOOTH); // blends colors nicely, and smoothes out lighting
 			      
 			      GLU glu = new GLU(); 
-	              glu.gluOrtho2D( 0.0f, 640, 0.0f, 680 );  
-
+			      glu.gluLookAt( 4.0, 2.0, 1.0, 2.0, 4.0, -3.0, 2.0, 2.0, -1.0 );
+	              
 	              gl.glMatrixMode( GL2.GL_MODELVIEW );   
 	              gl.glLoadIdentity();
 	              gl.glEnable(GL2.GL_LINE_SMOOTH);
-//	              glu.gluLookAt(0, 0, 0, 3, 3, 3, 10, 10, 10);
-
 			}
 
 			@Override
@@ -140,96 +142,143 @@ public class Jogl3d {
 	}
 	
 	private static void drawP(GL2 gl2){
+		//DONE
 		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 0, 0, 0);
-		newPoint(gl2, 0, 10, 0);
+		newPoint(gl2, 10, 0, 0);
 		newPoint(gl2, 10, 10, 0);
+		newPoint(gl2, 0, 10, 0);
+		newPoint(gl2, 0, 0, 0);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
+		newPoint(gl2, 0, 0, 50);
+		newPoint(gl2, 0, 10, 50);
+		newPoint(gl2, 0, 10, 0);
+		newPoint(gl2, 0, 0, 0);
+		newPoint(gl2, 0, 0, 50);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
+		newPoint(gl2, 0, 10, 50);
+		newPoint(gl2, 10, 10, 50);
+		newPoint(gl2, 10, 10, 0);
+		newPoint(gl2, 0, 10, 0);
+		newPoint(gl2, 0, 10, 50);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
+		newPoint(gl2, 10, 10, 50);
+		newPoint(gl2, 10, 0, 50);
+		newPoint(gl2, 10, 0, 0);
+		newPoint(gl2, 10, 10, 0);
+		newPoint(gl2, 10, 10, 50);
+		gl2.glEnd();
 		
+		gl2.glBegin(GL2.GL_POLYGON);
+		newPoint(gl2, 10, 0, 50);
 		newPoint(gl2, 10, 0, 0);
 		newPoint(gl2, 0, 0, 0);
 		newPoint(gl2, 0, 0, 50);
-
-		newPoint(gl2, 0, 10, 50);
-		newPoint(gl2, 0, 10, 0);
-		newPoint(gl2, 0, 10, 50);
-		
-		newPoint(gl2, 10, 10, 50);
-		newPoint(gl2, 10, 10, 0);
-		newPoint(gl2, 10, 10, 50);
-		
 		newPoint(gl2, 10, 0, 50);
-		newPoint(gl2, 10, 0, 0);
-		newPoint(gl2, 10, 0, 50);
-		newPoint(gl2, 0, 0, 50);
 		gl2.glEnd();
-		
+		//DONE
 		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 0, 10, 50);
 		newPoint(gl2, 0, 30, 50);
 		newPoint(gl2, 10, 30, 50);
-		
 		newPoint(gl2, 10, 10, 50);
-		newPoint(gl2, 10, 10, 40);
-		newPoint(gl2, 10, 30, 40);
-		
-		newPoint(gl2, 10, 30, 50);
-		newPoint(gl2, 10, 30, 40);
-		newPoint(gl2, 0, 30, 40);
-		
+		newPoint(gl2, 0, 10, 50);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 0, 30, 50);
 		newPoint(gl2, 0, 30, 40);
 		newPoint(gl2, 0, 10, 40);
+		newPoint(gl2, 0, 10, 50);
+		newPoint(gl2, 0, 30, 50);
 		gl2.glEnd();
-		
+		gl2.glBegin(GL2.GL_POLYGON);
+		newPoint(gl2, 10, 30, 50);
+		newPoint(gl2, 10, 30, 40);
+		newPoint(gl2, 0, 30, 40);
+		newPoint(gl2, 0, 30, 50);
+		newPoint(gl2, 10, 30, 50);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
+		newPoint(gl2, 10, 10, 50);
+		newPoint(gl2, 10, 10, 40);
+		newPoint(gl2, 10, 30, 40);
+		newPoint(gl2, 10, 30, 50);
+		newPoint(gl2, 10, 10, 50);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
+		newPoint(gl2, 10, 10, 40);
+		newPoint(gl2, 0, 10, 40);
+		newPoint(gl2, 0, 30, 40);
+		newPoint(gl2, 10, 30, 40);
+		newPoint(gl2, 10, 10, 40);
+		gl2.glEnd();
+		//DONE
 		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 0, 30, 40);
-		newPoint(gl2, 0, 20, 40);
+		newPoint(gl2, 0, 30, 20);
 		newPoint(gl2, 0, 20, 20);
-		
-		newPoint(gl2, 0, 30, 20);
+		newPoint(gl2, 0, 20, 40);
 		newPoint(gl2, 0, 30, 40);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 10, 30, 40);
-		
+		newPoint(gl2, 0, 30, 40);
+		newPoint(gl2, 0, 30, 20);
 		newPoint(gl2, 10, 30, 20);
-		newPoint(gl2, 0, 30, 20);
-		newPoint(gl2, 0, 30, 40);
-		
 		newPoint(gl2, 10, 30, 40);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 10, 20, 40);
 		newPoint(gl2, 10, 20, 20);
-		
 		newPoint(gl2, 10, 30, 20);
-		newPoint(gl2, 0, 30, 20);
-		newPoint(gl2, 0, 20, 20);
+		newPoint(gl2, 10, 30, 40);
+		newPoint(gl2, 10, 20, 40);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
+		newPoint(gl2, 0, 20, 40);
+		newPoint(gl2, 10, 20, 40);
 		newPoint(gl2, 10, 20, 20);
+		newPoint(gl2, 0, 20, 20);
+		newPoint(gl2, 0, 20, 40);
 		gl2.glEnd();
 		
+//		DONE
 		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 0, 10, 30);
 		newPoint(gl2, 0, 10, 20);
 		newPoint(gl2, 0, 30, 20);
-		
 		newPoint(gl2, 0, 30, 30);
 		newPoint(gl2, 0, 10, 30);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 10, 10, 30);
-		
 		newPoint(gl2, 10, 10, 20);
 		newPoint(gl2, 0, 10, 20);
 		newPoint(gl2, 0, 10, 30);
-		
 		newPoint(gl2, 10, 10, 30);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 10, 10, 20);
 		newPoint(gl2, 10, 30, 20);
-		
 		newPoint(gl2, 0, 30, 20);
 		newPoint(gl2, 0, 10, 20);
 		newPoint(gl2, 10, 10, 20);
-		
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
 		newPoint(gl2, 10, 30, 20);
 		newPoint(gl2, 10, 30, 30);
 		newPoint(gl2, 0, 30, 30);
-		
 		newPoint(gl2, 0, 30, 20);
+		newPoint(gl2, 10, 30, 20);
+		gl2.glEnd();
+		gl2.glBegin(GL2.GL_POLYGON);
+		newPoint(gl2, 10, 30, 20);
+		newPoint(gl2, 10, 30, 30);
+		newPoint(gl2, 10, 10, 30);
+		newPoint(gl2, 10, 10, 20);
 		newPoint(gl2, 10, 30, 20);
 		gl2.glEnd();
 	}
